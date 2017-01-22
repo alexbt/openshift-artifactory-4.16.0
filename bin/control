@@ -69,6 +69,16 @@ function status {
   fi
 }
 
+function build {
+    cd /tmp/
+    wget https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-4.16.0.zip -O /tmp/artifactory.zip
+    unzip artifactory.zip
+
+    mv artifactory-oss-4.16.0/bin artifactory-oss-4.16.0/bin_art
+    rm -fr artifactory-oss-4.16.0/tomcat/conf/server.xml
+    mv artifactory-oss-4.16.0/* $OPENSHIFT_ARTIFACTORY_DIR/
+}
+
 function catchall {
     echo "not yet implemented"
 }
@@ -81,7 +91,7 @@ case "$1" in
   reload)               catchall ;;
   tidy)                 catchall ;;
   pre-build)            catchall ;;
-  build)                catchall ;;
+  build)                build ;;
   deploy)               catchall ;;
   post-deploy)          catchall ;;
   pre-snapshot)         catchall ;;
