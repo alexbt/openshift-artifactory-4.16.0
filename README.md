@@ -1,7 +1,9 @@
-With this project, you can easily deploy the latest JFrog Artifactory to your OpenShift Online account.
+With this project, you can easily deploy the **latest** JFrog Artifactory to your OpenShift Online account.
 
 #Forked
-This repository was forked from **https://github.com/andershedstrom/openshift-community-artifactory**, which was configured for *v4.4.0*. It was modified to dynamically fetch & deploy the **latest** version.
+This repository was forked from **https://github.com/andershedstrom/openshift-community-artifactory**, which was configured for *v4.4.0*. 
+
+**It was modified so that it always (dynamically) uses the version.**
 
 #How to Deploy
 using `Openshift 2` command line tool (`rhc`), and type the following command to deploy:
