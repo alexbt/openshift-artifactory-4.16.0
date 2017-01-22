@@ -4,4 +4,4 @@ rm -fr artifactory.zip
 
 mv artifactory-oss-4.16.0/bin artifactory-oss-4.16.0/bin_art
 rm -fr artifactory-oss-4.16.0/tomcat/conf/server.xml
-mv artifactory-oss-4.16.0/* $OPENSHIFT_ARTIFACTORY_DIR/
+yes | cp -fr artifactory-oss-4.16.0/* $OPENSHIFT_ARTIFACTORY_DIR/
