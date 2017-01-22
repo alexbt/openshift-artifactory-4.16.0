@@ -162,7 +162,7 @@ checkJavaVersion(){
     fi
 
     if [[ "$_java" ]]; then
-        $_java -version 2>&1| \
+        "$_java" -version 2>&1| \
         awk -F\" '/version/{\
             if ($2 < 1.8) {\
                 printf "%s is too old must be at least java 1.8\n", $2;\
