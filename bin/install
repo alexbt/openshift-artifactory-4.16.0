@@ -1,6 +1,8 @@
-wget https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-4.16.0.zip -O artifactory.zip
+wget --max-redirect 10 "https://api.bintray.com/content/jfrog/artifactory/jfrog-artifactory-oss-%24latest.zip;bt_package=jfrog-artifactory-oss-zip" -O artifactory.zip
 unzip artifactory.zip
 rm -fr artifactory.zip
 
-rm -fr artifactory-oss-4.16.0/tomcat/conf/server.xml
-yes | cp -fr artifactory-oss-4.16.0/* $OPENSHIFT_ARTIFACTORY_DIR/jfrog-artifactory/
+FOLDER_NAME=`ls -td -- artifactory*/ | head -n 1 | cut -d'/' -f1`
+
+rm -fr ${FOLDER_NAME}/tomcat/conf/server.xml
+yes | cp -fr ${FOLDER_NAME}/* $OPENSHIFT_ARTIFACTORY_DIR/jfrog-artifactory/
