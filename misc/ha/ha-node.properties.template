@@ -10,7 +10,8 @@ cluster.home=/mnt/shared/artifactory/clusterhome
 # The context url that should be used to communicate with this server within the cluster.
 context.url=http://10.0.0.121:8081/artifactory/
 
-# The port that should be used to communicate with this server within the cluster. (Optional)
+# The port that should be used to communicate with this server within the cluster.
+# Make sure to assign a unique port for each cluster node. (Optional)
 membership.port=10001
 
 # Indicates if this is the primary server. (Optional)

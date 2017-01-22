@@ -94,7 +94,7 @@ artifactory soft nproc $minNbProcess
 artifactory hard nproc $minNbProcess
 to your /etc/security/limits.conf file."
         fi
-        su -l $ARTIFACTORY_USER -c "$TOMCAT_HOME/bin/startup.sh"
+        su -l $ARTIFACTORY_USER -c "export JAVA_HOME='$JAVA_HOME'; $TOMCAT_HOME/bin/startup.sh"
         RETVAL=$?
         if [ $RETVAL -ne 0 ]; then
             errorArtHome "Artifactory Tomcat server did not start. Please check the logs"
@@ -124,7 +124,7 @@ stop() {
     else
         echo "Stopping Artifactory Tomcat..."
         if [ $SHUTDOWN_PORT -ne 0 ]; then
-            su -l $ARTIFACTORY_USER -c "$TOMCAT_HOME/bin/shutdown.sh"
+            su -l $ARTIFACTORY_USER -c "export JAVA_HOME='$JAVA_HOME'; $TOMCAT_HOME/bin/shutdown.sh"
             RETVAL=$?
         else
             RETVAL=1
@@ -248,7 +248,7 @@ checkJavaVersion(){
     fi
 
     if [[ "$_java" ]]; then
-        $_java -version 2>&1| \
+        "$_java" -version 2>&1| \
         awk -F\" '/version/{\
             if ($2 < 1.8) {\
                 printf "%s is too old must be at least java 1.8\n", $2;\

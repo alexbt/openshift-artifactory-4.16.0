@@ -3,31 +3,46 @@
 
 <!--
   ~ Artifactory is a binaries repository manager.
-  ~ Copyright (C) 2014 JFrog Ltd.
+  ~ Copyright (C) 2016 JFrog Ltd.
   ~
   ~ Artifactory is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ it under the terms of the GNU Affero General Public License as published by
   ~ the Free Software Foundation, either version 3 of the License, or
   ~ (at your option) any later version.
   ~
   ~ Artifactory is distributed in the hope that it will be useful,
   ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
   ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU Lesser General Public License for more details.
+  ~ GNU Affero General Public License for more details.
   ~
-  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ You should have received a copy of the GNU Affero General Public License
   ~ along with Artifactory.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://artifactory.jfrog.org/xsd/1.6.0"
-        xsi:schemaLocation="http://artifactory.jfrog.org/xsd/1.6.0
-        http://www.jfrog.org/xsd/artifactory-v1_6_0.xsd">
+        xmlns="http://artifactory.jfrog.org/xsd/1.8.2"
+        xsi:schemaLocation="http://artifactory.jfrog.org/xsd/1.8.2
+        http://www.jfrog.org/xsd/artifactory-v1_8_2.xsd">
 <!--
     enable/disable anonymous downloads
     -->
     <security>
         <anonAccessEnabled>true</anonAccessEnabled>
         <anonAccessToBuildInfosDisabled>false</anonAccessToBuildInfosDisabled>
+        <hideUnauthorizedResources>false</hideUnauthorizedResources>
+        <passwordSettings>
+            <encryptionPolicy>supported</encryptionPolicy>
+            <expirationPolicy>
+                <enabled>false</enabled>
+                <passwordMaxAge>60</passwordMaxAge>
+                <notifyByEmail>true</notifyByEmail>
+            </expirationPolicy>
+        </passwordSettings>
+        <ldapSettings/>
+        <ldapGroupSettings/>
+        <userLockPolicy>
+            <enabled>false</enabled>
+            <loginAttempts>5</loginAttempts>
+        </userLockPolicy>
     </security>
     <backups>
         <backup>
@@ -69,6 +84,7 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>true</handleReleases>
             <handleSnapshots>false</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
         </localRepository>
         <localRepository>
             <key>libs-snapshot-local</key>
@@ -77,6 +93,7 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>false</handleReleases>
             <handleSnapshots>true</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
         </localRepository>
         <localRepository>
             <key>plugins-release-local</key>
@@ -85,6 +102,7 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>true</handleReleases>
             <handleSnapshots>false</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
         </localRepository>
         <localRepository>
             <key>plugins-snapshot-local</key>
@@ -93,6 +111,7 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>false</handleReleases>
             <handleSnapshots>true</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
         </localRepository>
         <localRepository>
             <key>ext-release-local</key>
@@ -101,6 +120,7 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>true</handleReleases>
             <handleSnapshots>false</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
         </localRepository>
         <localRepository>
             <key>ext-snapshot-local</key>
@@ -109,6 +129,7 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>false</handleReleases>
             <handleSnapshots>true</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
         </localRepository>
     </localRepositories>
 
@@ -120,7 +141,9 @@
             <repoLayoutRef>maven-2-default</repoLayoutRef>
             <handleReleases>true</handleReleases>
             <handleSnapshots>false</handleSnapshots>
+            <suppressPomConsistencyChecks>false</suppressPomConsistencyChecks>
             <url>http://jcenter.bintray.com</url>
+            <blockMismatchingMimeTypes>true</blockMismatchingMimeTypes>
         </remoteRepository>
     </remoteRepositories>
 
@@ -246,7 +269,21 @@
         </repoLayout>
         <repoLayout>
             <name>simple-default</name>
+            <artifactPathPattern>[orgPath]/[module]/[module]-[baseRev].[ext]</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
+        <repoLayout>
+            <name>composer-default</name>
             <artifactPathPattern>[orgPath]/[module]/[module]-[baseRev](-[fileItegRev]).[ext]</artifactPathPattern>
+            <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
+            <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
+            <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
+        </repoLayout>
+        <repoLayout>
+            <name>conan-default</name>
+            <artifactPathPattern>[module]/[baseRev]/[org]/[channel&lt;[^/]+&gt;][remainder&lt;(?:.*)&gt;]</artifactPathPattern>
             <distinctiveDescriptorPathPattern>false</distinctiveDescriptorPathPattern>
             <folderIntegrationRevisionRegExp>.*</folderIntegrationRevisionRegExp>
             <fileIntegrationRevisionRegExp>.*</fileIntegrationRevisionRegExp>
@@ -263,4 +300,15 @@
         <!-- by default cleanup once a day at 05:00AM -->
         <cronExp>0 12 0 * * ?</cronExp>
     </virtualCacheCleanupConfig>
+    <folderDownloadConfig>
+        <enabled>false</enabled>
+        <maxDownloadSizeMb>1024</maxDownloadSizeMb>
+        <maxFiles>5000</maxFiles>
+        <maxConcurrentRequests>10</maxConcurrentRequests>
+    </folderDownloadConfig>
+    <trashcanConfig>
+        <enabled>true</enabled>
+        <allowPermDeletes>false</allowPermDeletes>
+        <retentionPeriodDays>14</retentionPeriodDays>
+    </trashcanConfig>
 </config>
