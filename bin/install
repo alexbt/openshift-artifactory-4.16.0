@@ -1,1 +1,6 @@
+wget https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-4.16.0.zip -O artifactory.zip
+unzip artifactory.zip
+rm -fr artifactory.zip
 
+rm -fr artifactory-oss-4.16.0/tomcat/conf/server.xml
+yes | cp -fr artifactory-oss-4.16.0/* $OPENSHIFT_ARTIFACTORY_DIR/jfrog-artifactory/
