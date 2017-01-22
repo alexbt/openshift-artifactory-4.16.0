@@ -5,6 +5,8 @@ This repository was forked from **https://github.com/andershedstrom/openshift-co
 
 **It was modified so that it always (dynamically) uses the version.**
 
+The installlation uses the following link to fetch the latest version: https://api.bintray.com/content/jfrog/artifactory/jfrog-artifactory-oss-%24latest.zip;bt_package=jfrog-artifactory-oss-zip
+
 #How to Deploy
 using `Openshift 2` command line tool (`rhc`), and type the following command to deploy:
 
