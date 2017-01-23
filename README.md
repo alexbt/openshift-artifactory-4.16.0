@@ -3,7 +3,7 @@ With this project, you can easily deploy the **latest** JFrog Artifactory to you
 #Forked
 This repository was forked from **https://github.com/andershedstrom/openshift-community-artifactory**, which was configured for *v4.4.0*. 
 
-**It was modified so that it always (dynamically) uses the version.**
+**It was then modified so that it always (dynamically) uses the latest version.**
 
 The installlation uses the following link to fetch the latest version: https://api.bintray.com/content/jfrog/artifactory/jfrog-artifactory-oss-%24latest.zip;bt_package=jfrog-artifactory-oss-zip
 
